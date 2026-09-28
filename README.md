@@ -40,7 +40,7 @@ telco-churn-ml-lab/
 
 - **Tenure is the strongest single predictor.** Customers who churn have a median tenure of 10 months vs 38 months for retained customers. The first year is the highest-risk window.
 - **Contract type dominates churn rate.** Month-to-month customers churn at 42%, one-year at 11%, two-year at 3%. Contract lock-in is the most effective structural retention mechanism.
-- **Monthly charges correlate with churn, but the relationship is non-linear.** High-spend customers churn more, but only in the absence of protective add-ons — suggesting perceived value matters more than absolute spend.
+- **Monthly charges correlate with churn, but the relationship is non-linear.** High-spend customers churn more, but only in the absence of protective add-ons, which suggests perceived value matters more than absolute spend.
 - **Protective services (online security, tech support, device protection) are strongly protective.** Customers with zero add-on services churn at 52% when they have internet access, vs 24% for customers with at least one add-on.
 
 ---
@@ -49,18 +49,18 @@ telco-churn-ml-lab/
 
 The raw 21-column dataset was expanded to **44 features** across two stages.
 
-**Stage 1 (notebook 01a) — 38 features:** ordinal contract encoding, log-transformed charges, tenure groupings, add-on service counts, binary flags for auto-payment and electronic check, interaction terms for senior customers living alone, and early-tenure risk flags.
+**Stage 1 (notebook 01a), 38 features:** ordinal contract encoding, log-transformed charges, tenure groupings, add-on service counts, binary flags for auto-payment and electronic check, interaction terms for senior customers living alone, and early-tenure risk flags.
 
-**Stage 2 (notebook 03) — 6 additional interaction features:**
+**Stage 2 (notebook 03), 6 additional interaction features:**
 
 | Feature | Signal |
 |---|---|
-| `fiber_no_protection` | Fiber optic + no protective add-ons — high bill, low stickiness |
-| `fiber_month_to_month` | Fiber + month-to-month — intersection of two top individual predictors |
-| `contract_payment_risk` | Month-to-month + electronic check — no contractual or payment commitment |
-| `internet_no_addons` | Has internet but zero add-ons — fixes a non-monotonic signal in the 38-feature set |
-| `charge_per_service` | MonthlyCharges ÷ (services + 1) — perceived value proxy |
-| `paperless_no_auto` | Paperless billing + manual payment — sees every bill, low switching friction |
+| `fiber_no_protection` | Fiber optic + no protective add-ons: high bill, low stickiness |
+| `fiber_month_to_month` | Fiber + month-to-month: intersection of two top individual predictors |
+| `contract_payment_risk` | Month-to-month + electronic check: no contractual or payment commitment |
+| `internet_no_addons` | Has internet but zero add-ons: fixes a non-monotonic signal in the 38-feature set |
+| `charge_per_service` | MonthlyCharges ÷ (services + 1): perceived value proxy |
+| `paperless_no_auto` | Paperless billing + manual payment: sees every bill, low switching friction |
 
 All models were trained on SMOTE-balanced training data (50/50 class split) with `StandardScaler` applied to continuous features, fitted on the training portion only.
 
@@ -91,7 +91,7 @@ Test set: 1,407 customers, 26.6% churn rate (real-world distribution, no SMOTE a
 
 The business context here is marketing targeting: a false negative (missed churner) means lost revenue with no opportunity to intervene, while a false positive (wrongly flagged retained customer) costs only a retention call. When the cost of misses exceeds the cost of false alarms, recall is the right optimisation target.
 
-LR Tuned is the better choice if ROC-AUC (0.8294) or F1 (0.6070) are preferred — for example, if the retention budget is constrained and precision matters more.
+LR Tuned is the better choice if ROC-AUC (0.8294) or F1 (0.6070) are preferred, for example, if the retention budget is constrained and precision matters more.
 
 ---
 
@@ -101,10 +101,10 @@ Notebook 04 scores all 7,032 customers and assigns a **risk tier** based on pred
 
 | Tier | Probability | Recommended Action |
 |---|---|---|
-| **Critical** | ≥ 70% | Immediate outreach — personalised retention offer within 48 hours |
-| **High** | 50–70% | Proactive contact within 1 week — contract upgrade or discount incentive |
-| **Medium** | 30–50% | Quarterly check-in — soft upsell to add-ons or longer contract |
-| **Low** | < 30% | No action — standard communications cadence |
+| **Critical** | ≥ 70% | Immediate outreach: personalised retention offer within 48 hours |
+| **High** | 50–70% | Proactive contact within 1 week: contract upgrade or discount incentive |
+| **Medium** | 30–50% | Quarterly check-in: soft upsell to add-ons or longer contract |
+| **Low** | < 30% | No action: standard communications cadence |
 
 A decision threshold of **0.3** (below the default 0.5) is used for the binary `predicted_churn` flag to maximise recall in the flagged group. The tier column gives the retention team finer priority within that group.
 
@@ -151,8 +151,8 @@ Opens at `http://localhost:8501`. Features:
    python -m ipykernel install --user --name=telco-ml --display-name "Python (telco-ml)"
    ```
 
-3. **Download the dataset** — save as `data/raw/WA_Fn-UseC_-Telco-Customer-Churn.csv`.
-   Source: [Kaggle — IBM Telco Customer Churn](https://www.kaggle.com/datasets/blastchar/telco-customer-churn)
+3. **Download the dataset** and save it as `data/raw/WA_Fn-UseC_-Telco-Customer-Churn.csv`.
+   Source: [Kaggle: IBM Telco Customer Churn](https://www.kaggle.com/datasets/blastchar/telco-customer-churn)
 
 4. **Run notebooks in order**, selecting the `Python (telco-ml)` kernel in each:
 
