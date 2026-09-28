@@ -7,7 +7,6 @@ from pathlib import Path
 # Page config must be set before any stramlit comments 
 st.set_page_config(
     page_title="Telco Churn Dashboard",
-    page_icon="📡",
     layout="wide",
 )
 
